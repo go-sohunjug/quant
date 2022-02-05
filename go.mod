@@ -1,0 +1,13 @@
+module github.com/go-sohunjug/quant
+
+go 1.17
+
+require (
+	github.com/go-sohunjug/logger v1.0.1
+	github.com/mitchellh/mapstructure v1.4.3
+)
+
+require (
+	go.opentelemetry.io/otel v0.20.0 // indirect
+	go.opentelemetry.io/otel/trace v0.20.0 // indirect
+)
