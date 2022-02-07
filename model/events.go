@@ -17,14 +17,14 @@ const (
 	EventOrderCancelAll = "event.order_cancel_all"
 	// own trades
 	EventTrade       = "event.trade"
+	EventTrades      = "event.trades"
 	EventPosition    = "event.position"
 	EventCurPosition = "event.cur_position" // position of current script
 	EventRiskLimit   = "event.risk_limit"
 	EventDepth       = "event.depth"
 	// all trades in the markets
-	EventTradeHistory = "event.trade_history"
 
-	EventBalance     = "event.balance"
+	EventAccount     = "event.balance"
 	EventBalanceInit = "event.balance_init"
 
 	EventWatch = "event.watch"
@@ -36,18 +36,16 @@ var (
 	EventTypes = map[string]reflect.Type{
 		EventCandleParam: reflect.TypeOf(CandleParam{}),
 		EventCandle:      reflect.TypeOf(Candle{}),
-		EventTicker:       reflect.TypeOf(Ticker{}),
+		EventTicker:      reflect.TypeOf(Ticker{}),
 		EventOrder:       reflect.TypeOf(TradeAction{}),
 		// EventOrderCancelAll     = "order_cancel_all"
 		EventTrade:    reflect.TypeOf(Trade{}),
+		EventTrades:   reflect.TypeOf(Trade{}),
 		EventPosition: reflect.TypeOf(Position{}),
 		// EventCurPosition        = "cur_position" // position of current script
 		// EventRiskLimit          = "risk_limit"
-		EventDepth:        reflect.TypeOf(Depth{}),
-		EventTradeHistory: reflect.TypeOf(Trade{}),
-		EventBalance:      reflect.TypeOf(Account{}),
-		EventBalanceInit:  reflect.TypeOf(BalanceInfo{}),
-		EventWatch:        reflect.TypeOf(WatchParam{}),
+		EventDepth:   reflect.TypeOf(Depth{}),
+		EventAccount: reflect.TypeOf(Account{}),
 
 		EventNotify: reflect.TypeOf(NotifyEvent{}),
 	}
@@ -62,18 +60,12 @@ type Engine interface {
 	StopShort(price, amount float64)
 	CancelAllOrder()
 	AddIndicator(name string, params ...int) (ind indicator.CommonIndicator)
-	Position() (pos, price float64)
-	Balance() float64
 	Log(v ...interface{})
 	Watch(watchType string)
 	SendNotify(content, contentType string)
-	Merge(src, dst string, fn CandleFn)
-	SetBalance(balance float64)
 
 	// call for goscript
-	UpdatePosition(pos, price float64)
-	OnCandle(candle Candle)
-	UpdateBalance(balance float64)
+	OnCandle(candle *Candle)
 }
 
 // CandleParam get candle param
