@@ -101,7 +101,3 @@ type WatchParam struct {
 	Param map[string]interface{}
 }
 
-// BalanceInfo balance
-type BalanceInfo struct {
-	Balance float64
-}

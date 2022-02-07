@@ -14,5 +14,5 @@ type Ticker struct {
 	QuoteVol  float64      `json:"quoteVol,string"`
 	LastVol   float64      `json:"lastVol,string"`
 	Timestamp int64        `json:"date"` // 单位:ms
-	Date      time.Time
+	Date      time.Time    `json:"datetime,omitempty"`
 }
