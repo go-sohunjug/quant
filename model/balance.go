@@ -1,6 +1,6 @@
 package model
 
-type Balance struct {
+type Account struct {
 	Currency  Currency
 	Available float64
 	Frozen    float64

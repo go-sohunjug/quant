@@ -8,7 +8,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-var log = logger.NewHelper(logger.With(DefaultLogger, "module", "data/engine"))
+var Log = logger.NewHelper(logger.With(DefaultLogger, "module", "quant/model"))
 
 type Candle struct {
 	Symbol    CurrencyPair
@@ -83,7 +83,7 @@ func Map2Candle(data interface{}) (candle *Candle) {
 	candle = new(Candle)
 	err := mapstructure.Decode(data, &candle)
 	if err != nil {
-		log.Error("Map2Candle failed:", data, err.Error())
+		Log.Error("Map2Candle failed:", data, err.Error())
 	}
 	return
 }

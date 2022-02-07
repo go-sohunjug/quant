@@ -45,7 +45,7 @@ var (
 		// EventRiskLimit          = "risk_limit"
 		EventDepth:        reflect.TypeOf(Depth{}),
 		EventTradeHistory: reflect.TypeOf(Trade{}),
-		EventBalance:      reflect.TypeOf(Balance{}),
+		EventBalance:      reflect.TypeOf(Account{}),
 		EventBalanceInit:  reflect.TypeOf(BalanceInfo{}),
 		EventWatch:        reflect.TypeOf(WatchParam{}),
 

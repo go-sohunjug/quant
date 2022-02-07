@@ -1,9 +1,9 @@
 package model
 
 import (
-	golog "log"
+	"log"
 
 	"github.com/go-sohunjug/logger"
 )
 
-var DefaultLogger logger.Logger = logger.NewStdLogger(golog.Writer())
+var DefaultLogger logger.Logger = logger.NewStdLogger(log.Writer())
