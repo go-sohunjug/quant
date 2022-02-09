@@ -24,11 +24,11 @@ type Candle struct {
 }
 
 func (c Candle) Datetime() time.Time {
-	return time.Unix(c.Timestamp, 0)
+	return c.Date
 }
 
 func (c Candle) String() string {
-	return fmt.Sprintf("%s open:%f close:%f low:%f high:%f quotvol:%f basevol:%f", c.Datetime().String(), c.Open, c.Close, c.Low, c.High, c.QuoteVol, c.BaseVol)
+	return fmt.Sprintf("timestamp %d, %s open:%f close:%f low:%f high:%f quotvol:%f basevol:%f", c.Timestamp, c.Datetime().String(), c.Open, c.Close, c.Low, c.High, c.QuoteVol, c.BaseVol)
 }
 
 // CandleList candle list
