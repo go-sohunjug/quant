@@ -15,17 +15,19 @@ const (
 	EventTicker         = "event.ticker"
 	EventOrder          = "event.order"
 	EventOrderCancelAll = "event.order_cancel_all"
+	EventOrderCancel    = "event.order_cancel"
+	EventTrades         = "event.trades"
 	// own trades
+	EventTradeAction = "event.trade_action"
 	EventTrade       = "event.trade"
-	EventTrades      = "event.trades"
 	EventPosition    = "event.position"
 	EventCurPosition = "event.cur_position" // position of current script
 	EventRiskLimit   = "event.risk_limit"
 	EventDepth       = "event.depth"
 	// all trades in the markets
 
-	EventAccount     = "event.balance"
-	EventBalanceInit = "event.balance_init"
+	EventAccount = "event.balance"
+	EventAction  = "event.action"
 
 	EventWatch = "event.watch"
 
@@ -52,20 +54,24 @@ var (
 )
 
 type Engine interface {
-	OpenLong(price, amount float64)
-	CloseLong(price, amount float64)
-	OpenShort(price, amount float64)
-	CloseShort(price, amount float64)
-	StopLong(price, amount float64)
-	StopShort(price, amount float64)
+	OpenLong(symbol CurrencyPair, price, amount float64)
+	CloseLong(symbol CurrencyPair, price, amount float64)
+	OpenShort(symbol CurrencyPair, price, amount float64)
+	CloseShort(symbol CurrencyPair, price, amount float64)
+	StopLong(symbol CurrencyPair, price, amount float64)
+	StopShort(symbol CurrencyPair, price, amount float64)
 	CancelAllOrder()
+	CancelOrder(symbol CurrencyPair, orderId string, isClientId bool)
 	AddIndicator(name string, params ...int) (ind indicator.CommonIndicator)
 	Log(v ...interface{})
 	Watch(watchType string)
 	SendNotify(content, contentType string)
 
+	Start()
+	Stop()
 	// call for goscript
 	OnCandle(candle *Candle)
+	SetUser(user, secret string)
 }
 
 // CandleParam get candle param
@@ -101,3 +107,6 @@ type WatchParam struct {
 	Param map[string]interface{}
 }
 
+type EngineAction struct {
+	Action string
+}

@@ -10,6 +10,7 @@ type CurrencyPair struct {
 	CurrencyA      Currency
 	CurrencyB      Currency
 	Exchange       string
+	Method         string
 	ContractType   string
 	DeliveryDate   time.Time
 	AmountTickSize int // 下单量精度

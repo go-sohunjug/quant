@@ -8,6 +8,8 @@ const (
 	DirectLong  TradeType = 1
 	DirectShort TradeType = 1 << 1
 
+	Cancel TradeType = 1 << 2
+
 	Limit  TradeType = 1 << 3
 	Market TradeType = 1 << 4
 	Stop   TradeType = 1 << 5
@@ -61,11 +63,14 @@ type Trade struct {
 
 // TradeAction trade action
 type TradeAction struct {
-	Action    TradeType
-	Amount    float64
-	Price     float64
-	Date      time.Time
-	Timestamp int64
+	Symbol     CurrencyPair
+	Action     TradeType
+	Amount     float64
+	Price      float64
+	Date       time.Time
+	OrderID    string
+	IsClientID bool
+	Timestamp  int64
 }
 
 func (a TradeType) IsLong() bool {
@@ -87,6 +92,31 @@ func (a TradeType) IsStop() bool {
 		return true
 	}
 	return false
+}
+
+func (t TradeType) Type() string {
+	if t&Limit == Limit {
+		return "L"
+	} else if t&Market == Market {
+		return "M"
+	}
+	return "S"
+}
+
+func (t TradeType) Side() (ret string) {
+	if t&Open == Open {
+		ret += "O"
+	} else if t&Close == Close {
+		ret += "C"
+	}
+
+	if t&DirectLong == DirectLong {
+		ret += "B"
+	} else if t&DirectShort == DirectShort {
+		ret += "S"
+	}
+	return
+
 }
 
 func (t TradeType) String() (ret string) {
