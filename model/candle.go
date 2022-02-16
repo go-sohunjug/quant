@@ -114,9 +114,11 @@ func (d ParamData) GetFloat(key string, defaultValue float64) float64 {
 	if !ok {
 		return defaultValue
 	}
-	ret := v.(float64)
-	if ret == 0 {
-		return defaultValue
+	switch v.(type) {
+	case int:
+		return float64(v.(int))
+	case float64:
+		return v.(float64)
 	}
-	return ret
+	return defaultValue
 }

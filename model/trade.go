@@ -34,6 +34,20 @@ const (
 	SELL_MARKET
 )
 
+func GetTradeSide(ts string) TradeSide {
+	switch ts {
+	case "BUY":
+		return BUY
+	case "SELL":
+		return SELL
+	case "BUY_MARKET":
+		return BUY_MARKET
+	case "SELL_MARKET":
+		return SELL_MARKET
+	}
+	return TradeSide(0)
+}
+
 func (ts TradeSide) String() string {
 	switch ts {
 	case 1:

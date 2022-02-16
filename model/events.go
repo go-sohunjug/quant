@@ -39,15 +39,18 @@ var (
 		EventCandleParam: reflect.TypeOf(CandleParam{}),
 		EventCandle:      reflect.TypeOf(Candle{}),
 		EventTicker:      reflect.TypeOf(Ticker{}),
-		EventOrder:       reflect.TypeOf(TradeAction{}),
+		EventOrder:       reflect.TypeOf(Order{}),
+		EventOrderCancel: reflect.TypeOf(TradeAction{}),
 		// EventOrderCancelAll     = "order_cancel_all"
-		EventTrade:    reflect.TypeOf(Trade{}),
-		EventTrades:   reflect.TypeOf(Trade{}),
-		EventPosition: reflect.TypeOf(Position{}),
+		EventTrade:       reflect.TypeOf(Trade{}),
+		EventTrades:      reflect.TypeOf(Trade{}),
+		EventTradeAction: reflect.TypeOf(TradeAction{}),
+		EventPosition:    reflect.TypeOf(Position{}),
 		// EventCurPosition        = "cur_position" // position of current script
 		// EventRiskLimit          = "risk_limit"
 		EventDepth:   reflect.TypeOf(Depth{}),
 		EventAccount: reflect.TypeOf(Account{}),
+		EventAction:  reflect.TypeOf(EngineAction{}),
 
 		EventNotify: reflect.TypeOf(NotifyEvent{}),
 	}
@@ -69,6 +72,7 @@ type Engine interface {
 
 	Start()
 	Stop()
+	SaveParams()
 	// call for goscript
 	OnCandle(candle *Candle)
 	SetUser(user, secret string)
@@ -109,4 +113,5 @@ type WatchParam struct {
 
 type EngineAction struct {
 	Action string
+	Name   string
 }

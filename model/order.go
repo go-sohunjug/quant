@@ -7,14 +7,40 @@ var (
 	OrderStatusCanceled = "CANCELED"
 )
 
-
 type TradeStatus int
 
 func (ts TradeStatus) String() string {
 	return tradeStatusSymbol[ts]
 }
 
-var tradeStatusSymbol = [...]string{"UNFINISH", "PART_FINISH", "FINISH", "CANCEL", "REJECT", "CANCEL_ING", "FAIL"}
+func GetTradeStatus(ts string) TradeStatus {
+	switch ts {
+	case tradeStatusSymbol[0]:
+		return TradeStatus(0)
+	case tradeStatusSymbol[1]:
+		return TradeStatus(1)
+	case tradeStatusSymbol[2]:
+		return TradeStatus(2)
+	case tradeStatusSymbol[3]:
+		return TradeStatus(3)
+	case tradeStatusSymbol[4]:
+		return TradeStatus(4)
+	case tradeStatusSymbol[5]:
+		return TradeStatus(5)
+	case tradeStatusSymbol[6]:
+		return TradeStatus(6)
+	case "FILLED":
+		return TradeStatus(2)
+	case "EXPIRED":
+		return TradeStatus(3)
+	case "PARTIALLY_FILLED":
+		return TradeStatus(1)
+	}
+
+	return TradeStatus(0)
+}
+
+var tradeStatusSymbol = [...]string{"UNFINISH", "PART_FINISH", "FINISH", "CANCELED", "REJECT", "CANCEL_ING", "FAIL"}
 
 const (
 	ORDER_UNFINISH TradeStatus = iota
