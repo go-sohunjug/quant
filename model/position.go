@@ -13,6 +13,7 @@ type Position struct {
 	ProfitRatio float64   // 盈利比例,正数表示盈利，负数表示亏岁
 	Profit      float64   // 盈利
 
+	MarginType     string
 	LeverRate      float64
 	ContractType   string
 	ContractId     int64

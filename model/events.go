@@ -63,10 +63,12 @@ type Engine interface {
 	CloseShort(symbol CurrencyPair, price, amount float64)
 	StopLong(symbol CurrencyPair, price, amount float64)
 	StopShort(symbol CurrencyPair, price, amount float64)
+	GetOrder(symbol, orderid string)
 	CancelAllOrder()
 	CancelOrder(symbol CurrencyPair, orderId string, isClientId bool)
 	AddIndicator(name string, params ...int) (ind indicator.CommonIndicator)
 	Log(v ...interface{})
+	Logf(f string, v ...interface{})
 	Watch(watchType string)
 	SendNotify(content, contentType string)
 
@@ -114,4 +116,5 @@ type WatchParam struct {
 type EngineAction struct {
 	Action string
 	Name   string
+	Symbol string
 }

@@ -1,7 +1,9 @@
 package model
 
 import (
+	"encoding/json"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/go-sohunjug/logger"
@@ -96,23 +98,42 @@ type Param struct {
 	Info string
 }
 
-type ParamData map[string]interface{}
-
-func (d ParamData) GetString(key, defaultValue string) string {
-	v, ok := d[key]
-	if !ok {
-		return defaultValue
-	}
-	ret := v.(string)
-	if ret == "" {
-		return defaultValue
-	}
-	return ret
+type ParamData struct {
+	sync.Map
 }
-func (d ParamData) GetFloat(key string, defaultValue float64) float64 {
-	v, ok := d[key]
+
+func (d *ParamData) GetString(key string) string {
+	v, ok := d.Load(key)
 	if !ok {
-		return defaultValue
+		return ""
+	}
+	switch v.(type) {
+	case string:
+		return v.(string)
+	case uint, uint16, uint32, uint64, int, int16, int32, int64:
+		return fmt.Sprintf("%.d", v)
+	case float32, float64:
+		return fmt.Sprintf("%.f", v)
+	}
+	return ""
+}
+func (d *ParamData) GetBool(key string) bool {
+	v, ok := d.Load(key)
+	if !ok {
+		return false
+	}
+	switch v.(type) {
+	case bool:
+		return v.(bool)
+	case int:
+		return v.(int) == 1
+	}
+	return false
+}
+func (d *ParamData) GetFloat(key string) float64 {
+	v, ok := d.Load(key)
+	if !ok {
+		return 0
 	}
 	switch v.(type) {
 	case int:
@@ -120,5 +141,19 @@ func (d ParamData) GetFloat(key string, defaultValue float64) float64 {
 	case float64:
 		return v.(float64)
 	}
-	return defaultValue
+	return 0
+}
+func (d *ParamData) Pack() string {
+	params := make(map[string]any)
+	d.Range(func(key, value any) bool {
+		if k, ok := key.(string); ok {
+			params[k] = value
+		}
+		return true
+	})
+	data, err := json.Marshal(params)
+	if err != nil {
+		return ""
+	}
+	return string(data)
 }

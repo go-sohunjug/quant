@@ -1,6 +1,6 @@
 module github.com/go-sohunjug/quant
 
-go 1.17
+go 1.18
 
 require (
 	github.com/go-sohunjug/logger v1.0.1
