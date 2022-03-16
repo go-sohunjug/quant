@@ -1,4 +1,4 @@
-module github.com/go-sohunjug/quant
+module github.com/go-sohunjug/quant/v1
 
 go 1.18
 
