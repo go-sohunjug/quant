@@ -76,8 +76,10 @@ type Engine interface {
 	Stop()
 	SaveParams()
 	// call for goscript
+	AddTimer(second int64, timer func())
 	OnCandle(candle *Candle)
-	SetUser(user, secret string)
+	SetTag(key, value string)
+	Filter(key, value string) bool
 }
 
 // CandleParam get candle param

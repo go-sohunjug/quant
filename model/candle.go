@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"sync"
 	"time"
 
@@ -130,14 +131,35 @@ func (d *ParamData) GetBool(key string) bool {
 	}
 	return false
 }
+func (d *ParamData) GetInt(key string) int {
+	v, ok := d.Load(key)
+	if !ok {
+		return 0
+	}
+	switch v.(type) {
+	case uint, uint16, uint32, uint64, int, int16, int32, int64:
+		str := fmt.Sprintf("%.d", v)
+		vv, _ := strconv.Atoi(str)
+		return vv
+	case float32, float64:
+		str := fmt.Sprintf("%.f", v)
+		vv, _ := strconv.Atoi(str)
+		return vv
+	}
+	return 0
+}
 func (d *ParamData) GetFloat(key string) float64 {
 	v, ok := d.Load(key)
 	if !ok {
 		return 0
 	}
 	switch v.(type) {
-	case int:
-		return float64(v.(int))
+	case uint, uint16, uint32, uint64, int, int16, int32, int64:
+		str := fmt.Sprintf("%.d", v)
+		vv, _ := strconv.Atoi(str)
+		return float64(vv)
+	case float32:
+		return float64(v.(float32))
 	case float64:
 		return v.(float64)
 	}
